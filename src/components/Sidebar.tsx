@@ -32,13 +32,13 @@ export function Sidebar() {
         collapsed ? "w-16" : "w-56"
       )}
       style={{ transitionProperty: "width, background-color" }}
-    >
-      <div className="flex items-center h-16 px-4 border-b border-neutral-200">
+    >      <div className="flex items-center h-16 px-4 border-b border-neutral-200">
         <Button
           variant="ghost"
           size="icon"
           className={cn(
-            "transition-transform duration-300 bg-white/80 hover:bg-neutral-200 text-neutral-900 shadow-none mr-2 border-0 outline-none ring-0 focus:ring-0 focus:outline-none focus:border-0 active:border-0"
+            "transition-transform duration-300 bg-white/80 hover:bg-neutral-200 text-neutral-900 shadow-none border-0 outline-none ring-0 focus:ring-0 focus:outline-none focus:border-0 active:border-0",
+            collapsed ? "mx-3" : "mr-2"
           )}
           onClick={() => setCollapsed((c) => !c)}
           aria-label="Toggle sidebar"
