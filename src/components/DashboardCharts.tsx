@@ -19,7 +19,8 @@ import {
   PieChart,
   Pie,
   Cell,
-} from "recharts"
+} from "recharts";
+import { useEffect, useState } from "react";
 
 const lineData = [
   { name: "Jan", value: 400 },
@@ -41,10 +42,49 @@ const barData = [
 ]
 
 const pieData = [
-  { name: "Desktop", value: 45, color: "hsl(var(--chart-1))" },
-  { name: "Mobile", value: 35, color: "hsl(var(--chart-2))" },
-  { name: "Tablet", value: 20, color: "hsl(var(--chart-3))" },
+  { name: "Desktop", value: 45, colorVar: "--chart-1" },
+  { name: "Mobile", value: 35, colorVar: "--chart-2" },
+  { name: "Tablet", value: 20, colorVar: "--chart-3" },
 ]
+
+// Hook to get CSS custom property values
+function useChartColors() {
+  const [colors, setColors] = useState({
+    chart1: "#8884d8",
+    chart2: "#82ca9d", 
+    chart3: "#ffc658",
+    chart4: "#ff7c7c",
+    chart5: "#8dd1e1",
+  });
+
+  useEffect(() => {
+    const updateColors = () => {
+      const root = document.documentElement;
+      const computedStyle = getComputedStyle(root);
+      
+      setColors({
+        chart1: computedStyle.getPropertyValue('--chart-1').trim() || "#8884d8",
+        chart2: computedStyle.getPropertyValue('--chart-2').trim() || "#82ca9d",
+        chart3: computedStyle.getPropertyValue('--chart-3').trim() || "#ffc658", 
+        chart4: computedStyle.getPropertyValue('--chart-4').trim() || "#ff7c7c",
+        chart5: computedStyle.getPropertyValue('--chart-5').trim() || "#8dd1e1",
+      });
+    };
+
+    updateColors();
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(updateColors);
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['class'] 
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return colors;
+}
 
 // Mock data for the dashboard
 const stats = [
@@ -98,20 +138,32 @@ const charts = [
 
 
 function LineChartComponent() {
+  const colors = useChartColors();
+  
   return (
     <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
       <LineChart data={lineData}>
-        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+        <CartesianGrid 
+          strokeDasharray="3 3" 
+          stroke="hsl(var(--border))"
+          opacity={0.5}
+        />
         <XAxis 
           dataKey="name" 
-          className="text-muted-foreground"
-          fontSize={10}
-          tick={{ fontSize: 10 }}
+          tick={{ 
+            fontSize: 10, 
+            fill: "hsl(var(--muted-foreground))" 
+          }}
+          axisLine={{ stroke: "hsl(var(--border))" }}
+          tickLine={{ stroke: "hsl(var(--border))" }}
         />
         <YAxis 
-          className="text-muted-foreground"
-          fontSize={10}
-          tick={{ fontSize: 10 }}
+          tick={{ 
+            fontSize: 10, 
+            fill: "hsl(var(--muted-foreground))" 
+          }}
+          axisLine={{ stroke: "hsl(var(--border))" }}
+          tickLine={{ stroke: "hsl(var(--border))" }}
         />
         <Tooltip 
           contentStyle={{
@@ -119,14 +171,16 @@ function LineChartComponent() {
             border: "1px solid hsl(var(--border))",
             borderRadius: "8px",
             fontSize: "12px",
+            color: "hsl(var(--popover-foreground))",
           }}
         />
         <Line 
           type="monotone" 
           dataKey="value" 
-          stroke="hsl(var(--primary))" 
-          strokeWidth={2}
-          dot={{ fill: "hsl(var(--primary))", r: 3 }}
+          stroke={colors.chart1}
+          strokeWidth={3}
+          dot={{ fill: colors.chart1, r: 4 }}
+          activeDot={{ r: 6, fill: colors.chart1 }}
         />
       </LineChart>
     </ResponsiveContainer>
@@ -134,20 +188,32 @@ function LineChartComponent() {
 }
 
 function BarChartComponent() {
+  const colors = useChartColors();
+  
   return (
     <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
       <BarChart data={barData}>
-        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+        <CartesianGrid 
+          strokeDasharray="3 3" 
+          stroke="hsl(var(--border))"
+          opacity={0.5}
+        />
         <XAxis 
           dataKey="name" 
-          className="text-muted-foreground"
-          fontSize={10}
-          tick={{ fontSize: 10 }}
+          tick={{ 
+            fontSize: 10, 
+            fill: "hsl(var(--muted-foreground))" 
+          }}
+          axisLine={{ stroke: "hsl(var(--border))" }}
+          tickLine={{ stroke: "hsl(var(--border))" }}
         />
         <YAxis 
-          className="text-muted-foreground"
-          fontSize={10}
-          tick={{ fontSize: 10 }}
+          tick={{ 
+            fontSize: 10, 
+            fill: "hsl(var(--muted-foreground))" 
+          }}
+          axisLine={{ stroke: "hsl(var(--border))" }}
+          tickLine={{ stroke: "hsl(var(--border))" }}
         />
         <Tooltip 
           contentStyle={{
@@ -155,11 +221,12 @@ function BarChartComponent() {
             border: "1px solid hsl(var(--border))",
             borderRadius: "8px",
             fontSize: "12px",
+            color: "hsl(var(--popover-foreground))",
           }}
         />
         <Bar 
           dataKey="value" 
-          fill="hsl(var(--chart-2))"
+          fill={colors.chart2}
           radius={[4, 4, 0, 0]}
         />
       </BarChart>
@@ -168,6 +235,9 @@ function BarChartComponent() {
 }
 
 function PieChartComponent() {
+  const colors = useChartColors();
+  const pieColors = [colors.chart1, colors.chart2, colors.chart3];
+  
   return (
     <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
       <PieChart>
@@ -180,9 +250,11 @@ function PieChartComponent() {
           paddingAngle={5}
           dataKey="value"
           className="sm:inner-radius-[60px] sm:outer-radius-[100px]"
+          stroke="hsl(var(--background))"
+          strokeWidth={2}
         >
           {pieData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.color} />
+            <Cell key={`cell-${index}`} fill={pieColors[index]} />
           ))}
         </Pie>
         <Tooltip 
@@ -191,6 +263,7 @@ function PieChartComponent() {
             border: "1px solid hsl(var(--border))",
             borderRadius: "8px",
             fontSize: "12px",
+            color: "hsl(var(--popover-foreground))",
           }}
         />
       </PieChart>
@@ -215,14 +288,13 @@ export function DashboardCharts() {
         {stats.map((stat, i) => (
           <DashboardStatCard stat={stat} key={i}/>
         ))}
-      </div>
-              {/* Charts Grid */}
+      </div>      {/* Charts Grid */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {charts.map((chart, i) => {
           const ChartComponent = chart.component;
           return (
-            <div key={i} className="bg-background rounded-lg shadow-sm p-4">
-              <h2 className="text-lg font-semibold mb-2">{chart.title}</h2>
+            <div key={i} className="bg-card border border-border rounded-lg shadow-sm p-4">
+              <h2 className="text-lg font-semibold mb-2 text-card-foreground">{chart.title}</h2>
               <p className="text-sm text-muted-foreground mb-4">{chart.description}</p>
               <ChartComponent />
             </div>
