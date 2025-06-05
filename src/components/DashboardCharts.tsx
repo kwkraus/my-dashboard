@@ -276,10 +276,9 @@ export function DashboardCharts() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Dashboard</h1>
+      <div className="space-y-2">        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Dashboard</h1>
         <p className="text-sm text-muted-foreground sm:text-base">
-          Welcome back! Here's what's happening with your business today.
+          Welcome back! Here&apos;s what&apos;s happening with your business today.
         </p>
       </div>
       
