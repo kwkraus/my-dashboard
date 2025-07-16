@@ -145,8 +145,8 @@ export function AppSidebar({ mobileOpen = false, onMobileToggle }: AppSidebarPro
           </Avatar>
           {isOpen && (
             <div className="flex flex-col">
-              <span className="text-xs font-medium">John Doe</span>
-              <span className="text-xs text-muted-foreground">john@example.com</span>
+              <span className="text-xs font-medium">Jane Doe</span>
+              <span className="text-xs text-muted-foreground">jane@example.com</span>
             </div>
           )}
         </div>
