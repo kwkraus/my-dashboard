@@ -5,6 +5,7 @@ import {
   Users,
   TrendingUp,
   Activity,
+  UserCheck,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -101,6 +102,13 @@ const stats = [
     change: "+180.1%", 
     changeType: "positive" as const,
     icon: Users,
+  },
+  {
+    title: "User Conversion",
+    value: "2.5%",
+    change: "+0.3%",
+    changeType: "positive" as const,
+    icon: UserCheck,
   },
   {
     title: "Conversion Rate",
