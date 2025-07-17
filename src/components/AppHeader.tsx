@@ -77,11 +77,16 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
         {/* Notifications Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Bell className="h-4 w-4 text-muted-foreground" />
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="h-4 w-4 text-foreground" />
+              {mockNotifications.length > 0 && (
+                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-xs text-white flex items-center justify-center font-medium">
+                  {mockNotifications.length}
+                </span>
+              )}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80">
+          <DropdownMenuContent align="end" className="w-80 max-w-[90vw]">
             <DropdownMenuLabel className="font-medium">
               Notifications
             </DropdownMenuLabel>
@@ -99,13 +104,13 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
                             notification.type === 'warning' ? 'text-yellow-500' :
                             'text-blue-500'
                           }`} />
-                          <div className="flex-1 space-y-1">
-                            <p className="text-sm leading-relaxed">
+                          <div className="flex-1 min-w-0 space-y-1">
+                            <p className="text-sm leading-relaxed break-words">
                               {notification.content}
                             </p>
                             <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Clock className="h-3 w-3" />
-                              {notification.timestamp}
+                              <Clock className="h-3 w-3 flex-shrink-0" />
+                              <span className="truncate">{notification.timestamp}</span>
                             </div>
                           </div>
                         </div>
