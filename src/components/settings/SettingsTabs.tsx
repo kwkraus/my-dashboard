@@ -1,20 +1,17 @@
 "use client";
 
-import { useState } from "react";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProfileTab } from "./ProfileTab";
 import { SecurityTab } from "./SecurityTab";
 import { NotificationsTab } from "./NotificationsTab";
 
 export function SettingsTabs() {
-  const [activeTab, setActiveTab] = useState("profile");
   
   return (
     <div className="flex flex-col md:flex-row gap-6">
       <Tabs 
         defaultValue="profile" 
-        value={activeTab}
-        onValueChange={setActiveTab}
         className="w-full space-y-6"
       >
         <div className="flex flex-col md:flex-row gap-6">
