@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SettingsNav } from "./SettingsNav";
 import { SettingsTabs } from "./types";
 import { ProfileTab } from "./ProfileTab";
+import { SecurityTab } from "./SecurityTab";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<SettingsTabs>("profile");
@@ -13,7 +14,7 @@ export default function SettingsPage() {
       case "profile":
         return <ProfileTab />;
       case "security":
-        return <div>Security content will go here</div>;
+        return <SecurityTab />;
       case "notifications":
         return <div>Notifications content will go here</div>;
       case "advanced":
