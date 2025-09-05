@@ -34,7 +34,7 @@ A beautiful, responsive dashboard built with Next.js 15, featuring real-time ana
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/kwkraus/my-dashboard.git
 cd my-dashboard
 ```
 
@@ -61,10 +61,11 @@ pnpm dev
 ## 📊 Dashboard Features
 
 ### Analytics Cards
-- **Total Revenue**: Track your business revenue with percentage changes
-- **Active Users**: Monitor user engagement metrics
-- **Conversion Rate**: Measure conversion performance
-- **Active Sessions**: Real-time session tracking
+- **Total Revenue**: $45,231.89 with +20.1% growth from last month
+- **Active Users**: 2,350 users with +180.1% growth from last month
+- **User Conversion**: 2.5% rate with +0.3% improvement from last month
+- **Conversion Rate**: 12.5% with -4.3% change from last month
+- **Active Sessions**: 573 sessions with +12.1% growth from last month
 
 ### Interactive Charts
 - **Sales Overview**: Monthly sales performance line chart
@@ -99,7 +100,7 @@ src/
 ├── app/
 │   ├── globals.css          # Global styles and theme variables
 │   ├── layout.tsx           # Root layout with theme provider
-│   ├── page.tsx             # Home page
+│   ├── page.tsx             # Home page (redirects to /dashboard)
 │   └── dashboard/
 │       └── page.tsx         # Dashboard page
 ├── components/
@@ -112,6 +113,7 @@ src/
 │   ├── mode-toggle.tsx      # Theme toggle button
 │   └── theme-provider.tsx   # Theme context provider
 └── lib/
+    ├── charts.tsx           # Mini chart components
     └── utils.ts             # Utility functions
 ```
 
