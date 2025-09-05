@@ -110,7 +110,7 @@ export function AppSidebar({ mobileOpen = false, onMobileToggle }: AppSidebarPro
           {isOpen && <span className="transition-all duration-300 group-hover:font-semibold group-hover:text-slate-900 dark:group-hover:text-slate-100">Dashboard</span>}
         </div>
         <div
-          onClick={() => console.log('Settings clicked')}
+          onClick={() => window.location.href = '/settings'}
           className={cn(
             "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer",
             "transition-all duration-300 ease-in-out",
