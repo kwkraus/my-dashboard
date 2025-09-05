@@ -1,6 +1,8 @@
 "use client";
-import { Bell, Search, Menu, Clock, AlertCircle, Info, CheckCircle } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Bell, Search, Menu, Clock, AlertCircle, Info, CheckCircle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ModeToggle } from "@/components/mode-toggle";
 import {
@@ -56,6 +58,64 @@ const mockNotifications = [
 ];
 
 export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Handle click outside to close search
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    if (isSearchOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      // Focus the input when search opens
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSearchOpen]);
+
+  // Handle escape key to close search
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isSearchOpen) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isSearchOpen]);
+
+  const handleSearchToggle = () => {
+    setIsSearchOpen(!isSearchOpen);
+    if (!isSearchOpen) {
+      setSearchTerm(""); // Clear search term when opening
+    }
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Placeholder for future search functionality
+    console.log("Search term:", searchTerm);
+    // Could show a toast or handle search results here in the future
+  };
+
+  const handleSearchClose = () => {
+    setIsSearchOpen(false);
+    setSearchTerm("");
+  };
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-background px-6">
       {/* Mobile hamburger menu */}
@@ -68,9 +128,46 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
         <Menu className="h-4 w-4 text-muted-foreground" />
       </Button>
       
+      {/* Search Interface or Spacer */}
       <div className="flex-1">
-      </div><div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon">
+        {isSearchOpen && (
+          <div ref={searchRef} className="flex items-center gap-2 max-w-md">
+            <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 w-full">
+              <Input
+                ref={inputRef}
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="h-8 flex-1"
+                aria-label="Search input"
+              />
+              <Button 
+                type="submit" 
+                size="sm" 
+                className="h-8 px-3"
+                disabled={!searchTerm.trim()}
+              >
+                Search
+              </Button>
+              <Button 
+                type="button"
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8"
+                onClick={handleSearchClose}
+                aria-label="Close search"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </form>
+          </div>
+        )}
+      </div>
+
+      {/* Right side buttons */}
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" size="icon" onClick={handleSearchToggle}>
           <Search className="h-4 w-4 text-muted-foreground" />
         </Button>
         
