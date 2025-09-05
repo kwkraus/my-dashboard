@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProfileTab } from "./ProfileTab";
+import { SecurityTab } from "./SecurityTab";
+import { NotificationsTab } from "./NotificationsTab";
 
 export function SettingsTabs() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -37,28 +40,16 @@ export function SettingsTabs() {
           </TabsList>
           
           <div className="flex-1">
-            <TabsContent value="profile" className="mt-0 border rounded-lg p-6 h-full">
-              <h2 className="text-xl font-semibold mb-4">Profile Settings</h2>
-              <p className="text-muted-foreground">
-                Manage your profile information.
-              </p>
-              {/* Profile content will go here */}
+            <TabsContent value="profile" className="mt-0 h-full">
+              <ProfileTab />
             </TabsContent>
             
-            <TabsContent value="security" className="mt-0 border rounded-lg p-6 h-full">
-              <h2 className="text-xl font-semibold mb-4">Security Settings</h2>
-              <p className="text-muted-foreground">
-                Manage your password and security settings.
-              </p>
-              {/* Security content will go here */}
+            <TabsContent value="security" className="mt-0 h-full">
+              <SecurityTab />
             </TabsContent>
             
-            <TabsContent value="notifications" className="mt-0 border rounded-lg p-6 h-full">
-              <h2 className="text-xl font-semibold mb-4">Notification Preferences</h2>
-              <p className="text-muted-foreground">
-                Manage your notification settings.
-              </p>
-              {/* Notifications content will go here */}
+            <TabsContent value="notifications" className="mt-0 h-full">
+              <NotificationsTab />
             </TabsContent>
           </div>
         </div>
