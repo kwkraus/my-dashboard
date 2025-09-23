@@ -1,6 +1,8 @@
 "use client";
-import { Bell, Search, Menu, Clock, AlertCircle, Info, CheckCircle } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Bell, Search, Menu, Clock, AlertCircle, Info, CheckCircle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ModeToggle } from "@/components/mode-toggle";
 import {
@@ -56,6 +58,54 @@ const mockNotifications = [
 ];
 
 export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  // Focus search input when search opens
+  useEffect(() => {
+    if (searchOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [searchOpen]);
+
+  // Handle click outside to close search
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setSearchOpen(false);
+      }
+    };
+
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSearchOpen(false);
+      }
+    };
+
+    if (searchOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleEscapeKey);
+      };
+    }
+  }, [searchOpen]);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Placeholder behavior - no backend connected yet
+    console.log('Search submitted:', searchValue);
+  };
+
+  const handleSearchToggle = () => {
+    setSearchOpen(!searchOpen);
+    if (!searchOpen) {
+      setSearchValue("");
+    }
+  };
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-background px-6">
       {/* Mobile hamburger menu */}
@@ -69,10 +119,49 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
       </Button>
       
       <div className="flex-1">
-      </div><div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon">
-          <Search className="h-4 w-4 text-muted-foreground" />
-        </Button>
+      </div>
+      
+      <div className="flex items-center gap-2">
+        {/* Search functionality */}
+        <div ref={searchContainerRef} className="relative">
+          {!searchOpen ? (
+            <Button variant="ghost" size="icon" onClick={handleSearchToggle}>
+              <Search className="h-4 w-4 text-muted-foreground" />
+            </Button>
+          ) : (
+            <form onSubmit={handleSearchSubmit} className="flex items-center">
+              <div className="relative flex items-center animate-in slide-in-from-right-2 fade-in-0 duration-300">
+                <Input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="Search..."
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  className="w-64 md:w-64 sm:w-48 pr-20 focus:ring-1 focus:ring-ring"
+                />
+                <div className="absolute right-1 flex items-center gap-1">
+                  <Button
+                    type="submit"
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                  >
+                    <Search className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleSearchToggle}
+                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </form>
+          )}
+        </div>
         
         {/* Notifications Dropdown */}
         <DropdownMenu>
