@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { Bell, Search, Menu, Clock, AlertCircle, Info, CheckCircle, X } from "lucide-react";
+import { Bell, Search, Menu, Clock, AlertCircle, Info, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -137,9 +137,9 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
                   placeholder="Search..."
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
-                  className="w-64 md:w-64 sm:w-48 pr-20 focus:ring-1 focus:ring-ring"
+                  className="w-64 md:w-64 sm:w-48 pr-12 focus:ring-1 focus:ring-ring"
                 />
-                <div className="absolute right-1 flex items-center gap-1">
+                <div className="absolute right-1 flex items-center">
                   <Button
                     type="submit"
                     variant="ghost"
@@ -147,15 +147,6 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
                     className="h-8 w-8 text-muted-foreground hover:text-foreground"
                   >
                     <Search className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleSearchToggle}
-                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                  >
-                    <X className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
