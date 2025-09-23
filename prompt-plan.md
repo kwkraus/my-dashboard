@@ -1,7 +1,7 @@
 # User Conversion Dashboard Card Specification
 
 ## Purpose
-Track and display the conversion rate from visitors to registered users
+Track and display the conversion rate from visitors to registered users to the site
 
 ## Key Metrics
 - **Primary**: Conversion rate percentage for the last 30 days
