@@ -1,8 +1,12 @@
 "use client";
-import { Bell, Search, Menu, Clock, AlertCircle, Info, CheckCircle } from "lucide-react";
+import { useState } from "react";
+import { Bell, Menu, Clock, AlertCircle, Info, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ModeToggle } from "@/components/mode-toggle";
+import { SearchTrigger } from "@/components/SearchTrigger";
+import { SearchDialog } from "@/components/SearchDialog";
+import { useKeyboardShortcut } from "@/hooks/useKeyboardShortcut";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,26 +60,53 @@ const mockNotifications = [
 ];
 
 export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
+  // Search dialog state management
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Keyboard shortcut for Ctrl+K/Cmd+K
+  useKeyboardShortcut({
+    key: 'k',
+    ctrlKey: true,
+    metaKey: true,
+    callback: () => setIsSearchOpen(true)
+  });
+
+  // Handle search dialog open
+  const handleSearchOpen = () => {
+    setIsSearchOpen(true);
+  };
+
+  // Handle search dialog close and reset
+  const handleSearchClose = (open: boolean) => {
+    setIsSearchOpen(open);
+    if (!open) {
+      setSearchQuery(""); // Clear search when dialog closes
+    }
+  };
+
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-background px-6">
-      {/* Mobile hamburger menu */}
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        className="md:hidden"
-        onClick={onMobileMenuClick}
-      >
-        <Menu className="h-4 w-4 text-muted-foreground" />
-      </Button>
-      
-      <div className="flex-1">
-      </div><div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon">
-          <Search className="h-4 w-4 text-muted-foreground" />
+    <>
+      <header className="flex h-14 items-center gap-4 border-b bg-background px-6">
+        {/* Mobile hamburger menu */}
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="md:hidden"
+          onClick={onMobileMenuClick}
+        >
+          <Menu className="h-4 w-4 text-muted-foreground" />
         </Button>
         
-        {/* Notifications Dropdown */}
-        <DropdownMenu>
+        <div className="flex-1">
+        </div>
+        
+        <div className="flex items-center gap-2">
+          {/* Search Trigger */}
+          <SearchTrigger onClick={handleSearchOpen} />
+          
+          {/* Notifications Dropdown */}
+          <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
               <Bell className="h-4 w-4 text-foreground" />
@@ -131,10 +162,20 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
           </DropdownMenuContent>
         </DropdownMenu>
         <ModeToggle />
-        <Avatar className="h-8 w-8">
-          <AvatarFallback>JD</AvatarFallback>
-        </Avatar>
-      </div>
-    </header>
+          <Avatar className="h-8 w-8">
+            <AvatarFallback>JD</AvatarFallback>
+          </Avatar>
+        </div>
+      </header>
+
+      {/* Search Dialog */}
+      <SearchDialog
+        open={isSearchOpen}
+        onOpenChange={handleSearchClose}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        keyboardHint={typeof window !== 'undefined' && navigator.platform.toUpperCase().indexOf('MAC') >= 0 ? '⌘K' : 'Ctrl+K'}
+      />
+    </>
   );
 }

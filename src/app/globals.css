@@ -120,3 +120,76 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Search Dialog Backdrop Styles */
+@layer components {
+  .search-dialog-overlay {
+    /* Primary backdrop with blur effect and darkening overlay */
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.3);
+    
+    /* Smooth animations for dialog open/close transitions */
+    transition: all 100ms ease-in-out;
+    
+    /* Ensure overlay covers full viewport */
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+  }
+  
+  /* Fallback for browsers that don't support backdrop-filter */
+  @supports not (backdrop-filter: blur(8px)) {
+    .search-dialog-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: none;
+    }
+  }
+  
+  /* Theme-aware backdrop adjustments */
+  .dark .search-dialog-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Dialog content styling */
+  .search-dialog-content {
+    /* Center dialog in viewport */
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Responsive width with max constraint */
+    width: 90vw;
+    max-width: 500px;
+    
+    /* Mobile responsiveness - minimum margins */
+    min-width: 280px;
+    margin: 16px;
+    
+    /* Dialog elevation and styling */
+    background: hsl(var(--background));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    /* Animation timing for performance */
+    transition: all 100ms ease-in-out;
+    
+    /* Focus management */
+    outline: none;
+  }
+  
+  /* Mobile touch target optimization */
+  @media (max-width: 640px) {
+    .search-dialog-content {
+      width: calc(100vw - 32px);
+      margin: 16px;
+    }
+    
+    /* Ensure touch targets are at least 44px */
+    .search-dialog-content button,
+    .search-dialog-content input {
+      min-height: 44px;
+    }
+  }
+}
