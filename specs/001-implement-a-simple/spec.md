@@ -68,7 +68,7 @@ A user wants to type search terms in the dialog to demonstrate the search interf
 
 ### Edge Cases
 
-- What happens when the search dialog is opened on very small screens (mobile devices)?
+- What happens when the search dialog is opened on very small screens (mobile devices ≥320px width)? → Dialog should maintain usability with appropriate margins and touch targets ≥44px
 - How does the dialog behave when the browser window is resized while it's open?
 - What happens if multiple attempts are made to open the search dialog while it's already open?
 - How does the dialog handle very long search terms that might exceed the input field width?
@@ -78,15 +78,15 @@ A user wants to type search terms in the dialog to demonstrate the search interf
 ### Functional Requirements
 
 - **FR-001**: System MUST display a magnifying glass search icon in the application header
-- **FR-002**: System MUST open a modal dialog when the search icon is clicked
-- **FR-002a**: System MUST open the modal dialog when Ctrl+K (Windows/Linux) or Cmd+K (Mac) keyboard shortcut is pressed
+- **FR-002**: System MUST open a modal dialog when the search icon is clicked OR when Ctrl+K (Windows/Linux) or Cmd+K (Mac) keyboard shortcut is pressed
 - **FR-003**: Dialog MUST be positioned in the center of the screen viewport
-- **FR-004**: System MUST apply a blur effect with slight darkening to background content when dialog is open
+- **FR-004**: System MUST apply a blur effect with slight darkening to background content when dialog is open (backdrop-filter: blur(8px) with rgba(0,0,0,0.3) overlay)
 - **FR-005**: Dialog MUST contain a search input field that accepts text input
 - **FR-006**: Dialog MUST provide multiple ways to close (click outside, Escape key, close button)
 - **FR-007**: System MUST restore normal background appearance when dialog is closed
 - **FR-008**: Dialog MUST be responsive and work appropriately on different screen sizes
 - **FR-008a**: Dialog MUST have a maximum width of 500px on larger screens
+- **FR-008b**: Dialog MUST adapt to mobile screens (≥320px width) with appropriate margins and touch-friendly interactions
 - **FR-009**: Dialog MUST prevent interaction with background content while open
 - **FR-010**: Search input field MUST be automatically focused when dialog opens
 - **FR-011**: Search icon MUST display keyboard shortcut hint (Ctrl+K/Cmd+K) on hover

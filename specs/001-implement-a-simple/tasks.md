@@ -37,7 +37,7 @@
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
 - [ ] T006 Create useKeyboardShortcut custom hook in `src/hooks/useKeyboardShortcut.tsx`
-- [ ] T007 Add CSS styles for dialog backdrop blur effect in `src/app/globals.css`
+- [ ] T007 Add CSS styles for dialog backdrop blur effect (backdrop-filter: blur(8px) with rgba(0,0,0,0.3) overlay) in `src/app/globals.css`
 - [ ] T008 Add browser fallback styles for backdrop-filter in `src/app/globals.css`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
@@ -107,12 +107,13 @@
 - [ ] T026 [P] Add proper TypeScript interfaces for all component props in respective component files
 - [ ] T027 [P] Add accessibility attributes (ARIA labels, roles) to SearchDialog in `src/components/SearchDialog.tsx`
 - [ ] T028 [P] Add accessibility attributes to SearchTrigger in `src/components/SearchTrigger.tsx`
-- [ ] T029 [P] Verify responsive design works on mobile (320px+ width) across all components
+- [ ] T029 [P] Verify responsive design works on mobile (320px+ width) with appropriate margins and ≥44px touch targets in `src/components/SearchDialog.tsx`
 - [ ] T030 [P] Verify dialog max-width constraint (500px) works correctly in `src/components/SearchDialog.tsx`
-- [ ] T031 [P] Add keyboard shortcut display in both dialog and tooltip in respective components
-- [ ] T032 [P] Test and verify theme compatibility (light/dark modes) across all components
-- [ ] T033 [P] Verify CSS animations meet performance requirements (<100ms) in `src/app/globals.css`
-- [ ] T034 Run quickstart.md validation to ensure implementation matches specification
+- [ ] T031 [P] Add keyboard shortcut tooltip to SearchTrigger component showing "Ctrl+K" or "⌘K" based on platform in `src/components/SearchTrigger.tsx`
+- [ ] T032 [P] Add keyboard shortcut hint display within SearchDialog component interface in `src/components/SearchDialog.tsx`
+- [ ] T033 [P] Test and verify theme compatibility (light/dark modes) across all components
+- [ ] T034 [P] Verify CSS animations meet performance requirements (dialog open/close transitions <100ms) in `src/app/globals.css`
+- [ ] T035 Run quickstart.md validation to ensure implementation matches specification
 
 ---
 
