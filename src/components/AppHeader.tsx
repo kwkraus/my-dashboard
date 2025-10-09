@@ -80,7 +80,7 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
             <Button variant="ghost" size="icon" className="relative">
               <Bell className="h-4 w-4 text-foreground" />
               {mockNotifications.length > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-xs text-white flex items-center justify-center font-medium">
+                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-blue-500 text-xs text-white flex items-center justify-center font-medium">
                   {mockNotifications.length}
                 </span>
               )}
