@@ -1,0 +1,299 @@
+openapi: 3.0.3
+info:
+  title: Settings API
+  description: API endpoints for user profile and notification preferences management
+  version: 1.0.0
+  contact:
+    name: Settings Feature Team
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production API
+  - url: http://localhost:3000/api
+    description: Local development
+
+paths:
+  /user/profile:
+    get:
+      summary: Get user profile
+      description: Retrieve the authenticated user's profile information
+      operationId: getProfile
+      tags:
+        - Profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+              example:
+                firstName: "John"
+                lastName: "Doe"
+                email: "john.doe@example.com"
+                mobilePhone: "(555) 123-4567"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    patch:
+      summary: Update user profile
+      description: Update one or more profile fields with auto-save. Validates all provided fields.
+      operationId: updateProfile
+      tags:
+        - Profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileUpdate'
+            examples:
+              singleField:
+                summary: Update single field
+                value:
+                  firstName: "Jane"
+              multipleFields:
+                summary: Update multiple fields
+                value:
+                  firstName: "Jane"
+                  email: "jane.doe@example.com"
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+              example:
+                error: "Validation failed"
+                details:
+                  email: "Invalid email format"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Email already in use
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "Email already in use by another account"
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /user/notifications:
+    get:
+      summary: Get notification preferences
+      description: Retrieve the authenticated user's notification preferences
+      operationId: getNotifications
+      tags:
+        - Notifications
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Notification preferences retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationPreferences'
+              example:
+                allUpdates: true
+                marketingUpdates: false
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    patch:
+      summary: Update notification preferences
+      description: Update one or both notification preference toggles with instant save
+      operationId: updateNotifications
+      tags:
+        - Notifications
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationPreferencesUpdate'
+            examples:
+              singleToggle:
+                summary: Update single preference
+                value:
+                  allUpdates: false
+              bothToggles:
+                summary: Update both preferences
+                value:
+                  allUpdates: true
+                  marketingUpdates: true
+      responses:
+        '200':
+          description: Notification preferences updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationPreferences'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authenticated requests
+
+  schemas:
+    Profile:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - mobilePhone
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: User's first name
+          example: "John"
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: User's last name
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          description: User's email address (must be unique)
+          example: "john.doe@example.com"
+        mobilePhone:
+          type: string
+          pattern: '^[\d\s\(\)\-]{10,}$'
+          description: User's mobile phone number (US format)
+          example: "(555) 123-4567"
+
+    ProfileUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 100
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 100
+        email:
+          type: string
+          format: email
+        mobilePhone:
+          type: string
+          pattern: '^[\d\s\(\)\-]{10,}$'
+      minProperties: 1
+      description: Partial update of profile fields (at least one field required)
+
+    NotificationPreferences:
+      type: object
+      required:
+        - allUpdates
+        - marketingUpdates
+      properties:
+        allUpdates:
+          type: boolean
+          description: Receive all system updates and feature announcements
+          example: true
+        marketingUpdates:
+          type: boolean
+          description: Receive marketing communications and newsletters
+          example: false
+
+    NotificationPreferencesUpdate:
+      type: object
+      properties:
+        allUpdates:
+          type: boolean
+        marketingUpdates:
+          type: boolean
+      minProperties: 1
+      description: Partial update of notification preferences (at least one field required)
+
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: "An error occurred"
+
+    ValidationError:
+      type: object
+      required:
+        - error
+        - details
+      properties:
+        error:
+          type: string
+          description: General error message
+          example: "Validation failed"
+        details:
+          type: object
+          additionalProperties:
+            type: string
+          description: Field-specific validation errors
+          example:
+            email: "Invalid email format"
+            mobilePhone: "Phone must have at least 10 digits"
+
+  responses:
+    Unauthorized:
+      description: Authentication required or token invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Authentication required"
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "An unexpected error occurred"
+
+tags:
+  - name: Profile
+    description: User profile management endpoints
+  - name: Notifications
+    description: Notification preferences management endpoints
