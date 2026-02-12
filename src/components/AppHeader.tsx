@@ -66,6 +66,11 @@ const mockNotifications = [
 export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
   const [searchOpen, setSearchOpen] = React.useState(false);
   const searchButtonRef = React.useRef<HTMLButtonElement>(null);
+  const [isMac, setIsMac] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMac(navigator.platform.toUpperCase().includes("MAC"));
+  }, []);
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -126,7 +131,7 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Search (<kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">⌘K</kbd>)</p>
+              <p>Search (<kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">{isMac ? "⌘K" : "Ctrl+K"}</kbd>)</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
