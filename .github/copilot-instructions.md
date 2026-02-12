@@ -76,10 +76,10 @@ const colors = {
 
 ## Specialized Agents
 
-For detailed implementation guidance, see the specialized agents in `.github/agents.md`. Each agent provides deep expertise in a specific area:
-- **UI Component Developer** - shadcn/ui components and styling
-- **Chart Developer** - Recharts visualizations with theme support
-- **Layout & Responsive Designer** - Layouts and mobile-first design
-- **Theme Customization** - Theme systems and dark mode
-- **Dashboard Feature Developer** - Complete dashboard features
-- **TypeScript & Next.js Expert** - TypeScript patterns and Next.js optimization
+For detailed implementation guidance, see the specialized agents in `.github/agents/` directory. Each agent is defined in a `.agent.md` file with YAML frontmatter specifying name, description, and available tools. Each agent provides deep expertise in a specific area:
+- **UI Component Developer** (`ui-component-developer.agent.md`) - shadcn/ui components and styling
+- **Chart Developer** (`chart-developer.agent.md`) - Recharts visualizations with theme support
+- **Layout & Responsive Designer** (`layout-responsive-designer.agent.md`) - Layouts and mobile-first design
+- **Theme Customization** (`theme-customization.agent.md`) - Theme systems and dark mode
+- **Dashboard Feature Developer** (`dashboard-feature-developer.agent.md`) - Complete dashboard features
+- **TypeScript & Next.js Expert** (`typescript-nextjs-expert.agent.md`) - TypeScript patterns and Next.js optimization
