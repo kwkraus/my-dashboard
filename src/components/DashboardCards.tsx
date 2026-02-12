@@ -1,4 +1,6 @@
+"use client";
 import { ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
@@ -41,20 +43,19 @@ export function DashboardCard({ title, value, children }: DashboardCardProps) {
 };
 
 export function DashboardStatCard({ stat }: { stat: DashboardStatProps }) {
-  const CardWrapper = stat.clickable && stat.href 
-    ? ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => (
-        <div 
-          onClick={() => window.location.href = stat.href!}
-          className="cursor-pointer transition-all hover:scale-[1.02] hover:shadow-lg"
-          {...props}
-        >
-          {children}
-        </div>
-      )
-    : ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => <div {...props}>{children}</div>;
+  const router = useRouter();
+  
+  const handleClick = () => {
+    if (stat.clickable && stat.href) {
+      router.push(stat.href);
+    }
+  };
 
   return (
-    <CardWrapper>
+    <div 
+      onClick={handleClick}
+      className={stat.clickable ? "cursor-pointer transition-all hover:scale-[1.02] hover:shadow-lg" : ""}
+    >
       <Card key={stat.title}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
@@ -76,7 +77,7 @@ export function DashboardStatCard({ stat }: { stat: DashboardStatProps }) {
           </p>
         </CardContent>
       </Card>
-    </CardWrapper>
+    </div>
   )
 };
 
