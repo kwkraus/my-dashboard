@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
+import { ChatWidget } from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: "Modern Dashboard",
@@ -26,6 +27,7 @@ export default function RootLayout({
           <LayoutWrapper>
             {children}
           </LayoutWrapper>
+          <ChatWidget />
         </ThemeProvider>
       </body>
     </html>
