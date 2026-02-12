@@ -33,3 +33,11 @@ export type NotificationField = keyof NotificationPreferences;
 
 // Auto-save status states
 export type AutoSaveStatus = 'idle' | 'saving' | 'saved' | 'error';
+
+// Chat widget configuration
+export interface ChatWidgetConfig {
+  enabled: boolean;
+  botUrl: string;
+  position: 'bottom-right' | 'bottom-left';
+  title: string;
+}
