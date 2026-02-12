@@ -73,3 +73,13 @@ const colors = {
 - **Lucide React**: Icon system throughout the application
 - **Radix UI**: Underlying primitive components for shadcn/ui
 - **Tailwind CSS v4**: Latest version with CSS-based configuration
+
+## Specialized Agents
+
+For detailed implementation guidance, see the specialized agents in `.github/agents.md`. Each agent provides deep expertise in a specific area:
+- **UI Component Developer** - shadcn/ui components and styling
+- **Chart Developer** - Recharts visualizations with theme support
+- **Layout & Responsive Designer** - Layouts and mobile-first design
+- **Theme Customization** - Theme systems and dark mode
+- **Dashboard Feature Developer** - Complete dashboard features
+- **TypeScript & Next.js Expert** - TypeScript patterns and Next.js optimization
