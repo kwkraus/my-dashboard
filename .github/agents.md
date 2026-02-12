@@ -6,7 +6,7 @@ This project uses specialized AI agents to help with specific development tasks.
 
 The agents are defined in `.github/agents/` directory:
 
-### 1. **UI Component Developer** (`ui-component-developer.md`)
+### 1. **UI Component Developer** (`ui-component-developer.agent.md`)
 **Specialty**: shadcn/ui component development and styling
 
 **Use for**:
@@ -20,7 +20,7 @@ The agents are defined in `.github/agents/` directory:
 
 ---
 
-### 2. **Chart Developer** (`chart-developer.md`)
+### 2. **Chart Developer** (`chart-developer.agent.md`)
 **Specialty**: Recharts data visualizations with theme support
 
 **Use for**:
@@ -34,7 +34,7 @@ The agents are defined in `.github/agents/` directory:
 
 ---
 
-### 3. **Layout & Responsive Design** (`layout-responsive-designer.md`)
+### 3. **Layout & Responsive Design** (`layout-responsive-designer.agent.md`)
 **Specialty**: Layouts, navigation, and mobile responsiveness
 
 **Use for**:
@@ -48,7 +48,7 @@ The agents are defined in `.github/agents/` directory:
 
 ---
 
-### 4. **Theme Customization** (`theme-customization.md`)
+### 4. **Theme Customization** (`theme-customization.agent.md`)
 **Specialty**: Theme systems and dark mode implementation
 
 **Use for**:
@@ -62,7 +62,7 @@ The agents are defined in `.github/agents/` directory:
 
 ---
 
-### 5. **Dashboard Feature Developer** (`dashboard-feature-developer.md`)
+### 5. **Dashboard Feature Developer** (`dashboard-feature-developer.agent.md`)
 **Specialty**: Complete dashboard features with metrics and visualizations
 
 **Use for**:
@@ -76,7 +76,7 @@ The agents are defined in `.github/agents/` directory:
 
 ---
 
-### 6. **TypeScript & Next.js Expert** (`typescript-nextjs-expert.md`)
+### 6. **TypeScript & Next.js Expert** (`typescript-nextjs-expert.agent.md`)
 **Specialty**: TypeScript configuration and Next.js best practices
 
 **Use for**:
