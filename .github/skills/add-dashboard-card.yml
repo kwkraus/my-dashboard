@@ -1,0 +1,71 @@
+skill:
+  name: add-dashboard-card
+  description: Add a new metric card to the dashboard with proper styling and components
+  version: 1.0.0
+  category: dashboard
+  instructions: |
+    When adding a new dashboard metric card to this Next.js 15 dashboard application:
+    
+    1. **Choose the appropriate card component** based on the metric type:
+       - Use `DashboardCard` for basic metrics with custom content
+       - Use `DashboardStatCard` for statistics with trend indicators (percentage changes)
+       - Use `DashboardChartCard` for metrics that include embedded charts
+    
+    2. **Import the required components**:
+       ```tsx
+       import { DashboardCard, DashboardStatCard } from "@/components/DashboardCards";
+       import { IconName } from "lucide-react"; // For stat cards
+       ```
+    
+    3. **Add the card data** to the appropriate data array:
+       - For stat cards in `DashboardCharts.tsx`, add to the `stats` array:
+         ```tsx
+         {
+           title: "Metric Name",
+           value: "Value with units",
+           change: "+X.X%",
+           changeType: "positive" | "negative",
+           icon: IconName,
+         }
+         ```
+       - For custom cards, directly add JSX in the component
+    
+    4. **Follow styling conventions**:
+       - Use CSS custom properties for colors: `hsl(var(--border))`, `hsl(var(--muted-foreground))`
+       - Ensure responsive design with mobile-first approach
+       - Use `cn()` utility from `@/lib/utils` for conditional classes
+    
+    5. **Maintain the grid layout**:
+       - Stat cards use: `grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6`
+       - Ensure new cards fit the existing responsive grid structure
+    
+    6. **Type safety**:
+       - Define TypeScript interfaces for custom card props
+       - Use `as const` for union types like `changeType`
+  
+  examples:
+    - title: "Add a revenue stat card"
+      code: |
+        // In DashboardCharts.tsx, add to stats array:
+        {
+          title: "Monthly Revenue",
+          value: "$12,345",
+          change: "+15.3%",
+          changeType: "positive" as const,
+          icon: DollarSign,
+        }
+    
+    - title: "Add a custom metric card"
+      code: |
+        <DashboardCard title="Custom Metric" value="142">
+          <MiniLineChart data={chartData} />
+        </DashboardCard>
+  
+  related_files:
+    - src/components/DashboardCards.tsx
+    - src/components/DashboardCharts.tsx
+    - src/lib/charts.tsx
+  
+  related_skills:
+    - add-chart
+    - add-shadcn-component
