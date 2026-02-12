@@ -1,0 +1,165 @@
+---
+name: create-dashboard-page
+description: Create a new dashboard page following Next.js 15 App Router conventions
+---
+
+When creating a new dashboard page in this Next.js 15 application:
+
+1. **Create the page file** in `src/app/[route-name]/page.tsx`:
+   - Use kebab-case for route names
+   - File must be named exactly `page.tsx`
+   - Export a default function component
+
+2. **Page component structure**:
+   ```tsx
+   export default function PageName() {
+     return (
+       <div className="space-y-6">
+         {/* Page header */}
+         <div className="space-y-2">
+           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+             Page Title
+           </h1>
+           <p className="text-sm text-muted-foreground sm:text-base">
+             Page description
+           </p>
+         </div>
+         
+         {/* Page content */}
+         {/* ... */}
+       </div>
+     );
+   }
+   ```
+
+3. **Use client directive** when needed:
+   - Add `"use client";` at the top if using React hooks (useState, useEffect)
+   - Add `"use client";` if using interactive components
+   - Server components are the default (no directive needed)
+
+4. **Add metadata** for SEO (server components only):
+   ```tsx
+   import type { Metadata } from "next";
+   
+   export const metadata: Metadata = {
+     title: "Page Title - Modern Dashboard",
+     description: "Page description",
+   };
+   ```
+
+5. **Layout and styling**:
+   - The page is automatically wrapped by `LayoutWrapper` from `layout.tsx`
+   - Use responsive classes: `text-sm sm:text-base md:text-lg`
+   - Use grid layouts: `grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6`
+   - Apply spacing: `space-y-6` for vertical spacing between sections
+
+6. **Reuse dashboard components**:
+   - Import cards: `import { DashboardCard, DashboardStatCard } from "@/components/DashboardCards"`
+   - Import charts: `import { DashboardCharts } from "@/components/DashboardCharts"`
+   - Import UI components: `import { Card } from "@/components/ui/card"`
+
+7. **Navigation** (if needed):
+   - Add route to `AppSidebar.tsx` for navigation menu
+   - Use `next/link` for client-side navigation:
+     ```tsx
+     import Link from "next/link";
+     <Link href="/your-route">Link Text</Link>
+     ```
+
+
+## Examples
+
+### Create an analytics page
+
+```tsx
+// src/app/analytics/page.tsx
+import type { Metadata } from "next";
+import { DashboardCharts } from "@/components/DashboardCharts";
+
+export const metadata: Metadata = {
+  title: "Analytics - Modern Dashboard",
+  description: "View your analytics and insights",
+};
+
+export default function AnalyticsPage() {
+  return (
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+          Analytics
+        </h1>
+        <p className="text-sm text-muted-foreground sm:text-base">
+          Track your performance metrics and insights
+        </p>
+      </div>
+      
+      <DashboardCharts />
+    </div>
+  );
+}
+
+```
+
+### Create an interactive settings page
+
+```tsx
+// src/app/settings/page.tsx
+"use client";
+
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+export default function SettingsPage() {
+  const [setting, setSetting] = useState(false);
+  
+  return (
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+          Settings
+        </h1>
+        <p className="text-sm text-muted-foreground sm:text-base">
+          Manage your application settings
+        </p>
+      </div>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>General Settings</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Button onClick={() => setSetting(!setting)}>
+            Toggle Setting
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+```
+
+
+## Tips
+
+- Server components are faster but can't use React hooks
+- Use dynamic imports for heavy client components
+- Pages are automatically responsive via LayoutWrapper
+- The sidebar automatically handles mobile navigation
+
+
+## Related Files
+
+- `src/app/layout.tsx`
+- `src/app/dashboard/page.tsx`
+- `src/components/LayoutWrapper.tsx`
+- `src/components/AppSidebar.tsx`
+
+
+## Related Skills
+
+- `add-dashboard-card`
+- `add-chart`
+- `add-shadcn-component`
+

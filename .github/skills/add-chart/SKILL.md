@@ -1,0 +1,145 @@
+---
+name: add-chart
+description: Add a new Recharts visualization with theme-aware styling to the dashboard
+---
+
+When adding a new chart to this dashboard application using Recharts:
+
+1. **Use the useChartColors hook** for theme-aware colors:
+   ```tsx
+   const colors = useChartColors();
+   ```
+   This hook automatically updates chart colors when theme changes between light/dark modes.
+
+2. **Choose the appropriate chart type**:
+   - LineChart: For trends over time (sales, growth, etc.)
+   - BarChart: For comparisons across categories
+   - PieChart: For proportions and distributions
+   - Mini charts: Use `MiniLineChart` or `MiniBarChart` from `@/lib/charts` for compact displays
+
+3. **Apply consistent theming** to all chart elements:
+   - Grid: `stroke="hsl(var(--border))" opacity={0.5}`
+   - Axes: `fill="hsl(var(--muted-foreground))"` for tick labels
+   - Tooltips: Use the standard tooltip style object:
+     ```tsx
+     contentStyle={{
+       backgroundColor: "hsl(var(--popover))",
+       border: "1px solid hsl(var(--border))",
+       borderRadius: "8px",
+       fontSize: "12px",
+       color: "hsl(var(--popover-foreground))",
+     }}
+     ```
+   - Chart colors: Use `colors.chart1`, `colors.chart2`, etc.
+
+4. **Make charts responsive**:
+   - Wrap in `<ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">`
+   - Use small font sizes: `fontSize: 10` for axis labels
+   - Adjust chart sizes for mobile: use Tailwind responsive classes
+
+5. **Component structure** for full-size charts:
+   ```tsx
+   function ChartComponent() {
+     const colors = useChartColors();
+     return (
+       <ResponsiveContainer width="100%" height={250}>
+         {/* Chart implementation */}
+       </ResponsiveContainer>
+     );
+   }
+   ```
+
+6. **Add to the charts array** in `DashboardCharts.tsx`:
+   ```tsx
+   {
+     title: "Chart Title",
+     description: "Chart description",
+     component: YourChartComponent,
+   }
+   ```
+
+7. **Mark component as client-side** if it's in its own file:
+   ```tsx
+   "use client";
+   ```
+
+
+## Examples
+
+### Add a line chart for sales data
+
+```tsx
+function SalesLineChart() {
+  const colors = useChartColors();
+  
+  return (
+    <ResponsiveContainer width="100%" height={250}>
+      <LineChart data={salesData}>
+        <CartesianGrid 
+          strokeDasharray="3 3" 
+          stroke="hsl(var(--border))"
+          opacity={0.5}
+        />
+        <XAxis 
+          dataKey="month" 
+          tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+        />
+        <YAxis 
+          tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+        />
+        <Tooltip contentStyle={{
+          backgroundColor: "hsl(var(--popover))",
+          border: "1px solid hsl(var(--border))",
+          borderRadius: "8px",
+        }} />
+        <Line 
+          type="monotone" 
+          dataKey="value" 
+          stroke={colors.chart1}
+          strokeWidth={3}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+}
+
+```
+
+### Add a mini chart to a card
+
+```tsx
+import { MiniLineChart } from "@/lib/charts";
+
+const trendData = [
+  { x: "Mon", y: 10 },
+  { x: "Tue", y: 15 },
+  { x: "Wed", y: 12 },
+];
+
+<DashboardCard title="Trend" value="142">
+  <MiniLineChart data={trendData} />
+</DashboardCard>
+
+```
+
+
+## Tips
+
+- Charts automatically adapt to theme changes using CSS custom properties
+- Always test charts in both light and dark modes
+- Use the five predefined chart colors (chart1-chart5) for consistency
+- Keep data visualization simple and readable on mobile devices
+
+
+## Related Files
+
+- `src/components/DashboardCharts.tsx`
+- `src/lib/charts.tsx`
+- `src/app/globals.css`
+
+
+## Related Skills
+
+- `add-dashboard-card`
+- `add-theme-colors`
+

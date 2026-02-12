@@ -181,3 +181,4 @@ build/Release
 
 # Yarn Integrity file
 .yarn-integrity
+.github/skills/_backup/
