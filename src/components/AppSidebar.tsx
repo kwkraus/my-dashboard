@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { ChevronLeft, Home, Settings } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ChevronLeft, Home, Settings, DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -11,6 +12,7 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ mobileOpen = false, onMobileToggle }: AppSidebarProps) {
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -87,47 +89,43 @@ export function AppSidebar({ mobileOpen = false, onMobileToggle }: AppSidebarPro
       </div>      {/* Navigation */}
       <nav className="flex-1 space-y-1 p-2">
         <div
-          onClick={() => window.location.href = '/dashboard'}
+          onClick={() => router.push('/dashboard')}
           className={cn(
             "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer",
             "transition-all duration-300 ease-in-out",
-            "hover:shadow-lg hover:scale-[1.02]",
+            "hover:shadow-lg hover:scale-[1.02] hover:bg-slate-100 dark:hover:bg-slate-800",
             "active:scale-[0.98]",
             "hover:border-l-4 hover:border-l-blue-500 hover:pl-2",
             !isOpen && "justify-center px-2 hover:px-2"
           )}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#f1f5f9'; // slate-100
-            if (document.documentElement.classList.contains('dark')) {
-              e.currentTarget.style.backgroundColor = '#1e293b'; // slate-800
-            }
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '';
-          }}
         >
           <Home className="h-4 w-4 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:scale-110" />
           {isOpen && <span className="transition-all duration-300 group-hover:font-semibold group-hover:text-slate-900 dark:group-hover:text-slate-100">Dashboard</span>}
+        </div>
+        <div
+          onClick={() => router.push('/revenue')}
+          className={cn(
+            "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer",
+            "transition-all duration-300 ease-in-out",
+            "hover:shadow-lg hover:scale-[1.02] hover:bg-slate-100 dark:hover:bg-slate-800",
+            "active:scale-[0.98]",
+            "hover:border-l-4 hover:border-l-green-500 hover:pl-2",
+            !isOpen && "justify-center px-2 hover:px-2"
+          )}
+        >
+          <DollarSign className="h-4 w-4 transition-all duration-300 group-hover:text-green-600 dark:group-hover:text-green-400 group-hover:scale-110" />
+          {isOpen && <span className="transition-all duration-300 group-hover:font-semibold group-hover:text-slate-900 dark:group-hover:text-slate-100">Revenue</span>}
         </div>
         <div
           onClick={() => console.log('Settings clicked')}
           className={cn(
             "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer",
             "transition-all duration-300 ease-in-out",
-            "hover:shadow-lg hover:scale-[1.02]",
+            "hover:shadow-lg hover:scale-[1.02] hover:bg-slate-100 dark:hover:bg-slate-800",
             "active:scale-[0.98]",
             "hover:border-l-4 hover:border-l-emerald-500 hover:pl-2",
             !isOpen && "justify-center px-2 hover:px-2"
           )}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#f1f5f9'; // slate-100
-            if (document.documentElement.classList.contains('dark')) {
-              e.currentTarget.style.backgroundColor = '#1e293b'; // slate-800
-            }
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '';
-          }}
         >
           <Settings className="h-4 w-4 transition-all duration-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:rotate-90" />
           {isOpen && <span className="transition-all duration-300 group-hover:font-semibold group-hover:text-slate-900 dark:group-hover:text-slate-100">Settings</span>}

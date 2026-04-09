@@ -95,6 +95,8 @@ const stats = [
     change: "+20.1%",
     changeType: "positive" as const,
     icon: DollarSign,
+    clickable: true,
+    href: "/revenue",
   },
   {
     title: "Active Users",
