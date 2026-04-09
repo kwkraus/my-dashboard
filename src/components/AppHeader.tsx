@@ -1,8 +1,15 @@
 "use client";
+import * as React from "react";
 import { Bell, Search, Menu, Clock, AlertCircle, Info, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ModeToggle } from "@/components/mode-toggle";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SearchDialog } from "@/components/SearchDialog";
 
 interface AppHeaderProps {
   onMobileMenuClick?: () => void;
@@ -56,6 +64,45 @@ const mockNotifications = [
 ];
 
 export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
+  const [searchOpen, setSearchOpen] = React.useState(false);
+  const searchButtonRef = React.useRef<HTMLButtonElement>(null);
+  const [isMac, setIsMac] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMac(navigator.platform.toUpperCase().includes("MAC"));
+  }, []);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        const target = e.target as HTMLElement;
+        const tag = target.tagName;
+        if (
+          tag === "INPUT" ||
+          tag === "TEXTAREA" ||
+          tag === "SELECT" ||
+          target.isContentEditable
+        ) {
+          return;
+        }
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleSearchOpenChange = React.useCallback((open: boolean) => {
+    setSearchOpen(open);
+    if (!open) {
+      // Return focus to the trigger button
+      requestAnimationFrame(() => {
+        searchButtonRef.current?.focus();
+      });
+    }
+  }, []);
+
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-background px-6">
       {/* Mobile hamburger menu */}
@@ -70,9 +117,25 @@ export function AppHeader({ onMobileMenuClick }: AppHeaderProps) {
       
       <div className="flex-1">
       </div><div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon">
-          <Search className="h-4 w-4 text-muted-foreground" />
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                ref={searchButtonRef}
+                variant="ghost"
+                size="icon"
+                onClick={() => setSearchOpen(true)}
+                aria-label="Search"
+              >
+                <Search className="h-4 w-4 text-muted-foreground" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Search (<kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">{isMac ? "⌘K" : "Ctrl+K"}</kbd>)</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <SearchDialog open={searchOpen} onOpenChange={handleSearchOpenChange} />
         
         {/* Notifications Dropdown */}
         <DropdownMenu>
