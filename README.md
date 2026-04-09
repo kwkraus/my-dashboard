@@ -12,6 +12,8 @@ A beautiful, responsive dashboard built with Next.js 15, featuring real-time ana
 - 🎭 **Theme-Aware Charts** - Charts automatically adapt to light/dark mode
 - ⚡ **Performance Optimized** - Built with Next.js 15 and Turbopack
 - 🧩 **Component Architecture** - Modular, reusable components
+- 🔔 **Notifications** - Bell icon dropdown with categorized notifications (success, info, warning)
+- 🗂️ **Collapsible Sidebar** - Expandable/collapsible navigation on desktop; slide-over overlay on mobile
 
 ## 🛠️ Tech Stack
 
@@ -63,13 +65,19 @@ pnpm dev
 ### Analytics Cards
 - **Total Revenue**: Track your business revenue with percentage changes
 - **Active Users**: Monitor user engagement metrics
-- **Conversion Rate**: Measure conversion performance
+- **User Conversion**: Measure individual user conversion
+- **Conversion Rate**: Measure overall conversion performance
 - **Active Sessions**: Real-time session tracking
 
 ### Interactive Charts
 - **Sales Overview**: Monthly sales performance line chart
-- **User Engagement**: Weekly active users bar chart  
-- **Traffic Sources**: Distribution pie chart for traffic analysis
+- **User Engagement**: Weekly active users bar chart
+- **Traffic Sources**: Desktop/Mobile/Tablet distribution donut chart
+
+### Navigation & Layout
+- **Sidebar**: Dashboard and Settings navigation items; collapses to icon-only view on desktop
+- **Header**: Search, notifications bell (with dropdown), theme toggle, and user avatar
+- **User Profile**: Persistent user section at the bottom of the sidebar
 
 ### Design System
 - Consistent color palette that works in both themes
@@ -99,19 +107,20 @@ src/
 ├── app/
 │   ├── globals.css          # Global styles and theme variables
 │   ├── layout.tsx           # Root layout with theme provider
-│   ├── page.tsx             # Home page
+│   ├── page.tsx             # Redirects to /dashboard
 │   └── dashboard/
 │       └── page.tsx         # Dashboard page
 ├── components/
 │   ├── ui/                  # shadcn/ui components
-│   ├── AppHeader.tsx        # Application header
-│   ├── AppSidebar.tsx       # Navigation sidebar
-│   ├── DashboardCards.tsx   # Metric cards component
-│   ├── DashboardCharts.tsx  # Charts components
-│   ├── LayoutWrapper.tsx    # Layout container
+│   ├── AppHeader.tsx        # Application header with notifications and theme toggle
+│   ├── AppSidebar.tsx       # Collapsible navigation sidebar with user profile
+│   ├── DashboardCards.tsx   # Reusable metric card components
+│   ├── DashboardCharts.tsx  # Stat cards and charts page component
+│   ├── LayoutWrapper.tsx    # Layout container (sidebar + header + main)
 │   ├── mode-toggle.tsx      # Theme toggle button
 │   └── theme-provider.tsx   # Theme context provider
 └── lib/
+    ├── charts.tsx           # MiniLineChart and MiniBarChart utilities
     └── utils.ts             # Utility functions
 ```
 
